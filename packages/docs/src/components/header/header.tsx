@@ -198,10 +198,10 @@ export const Header = component$(() => {
         <div
           style={{
             position: 'absolute',
-            right: '20px',
+            right: '-80px',
             display: 'block',
             height: '300px',
-            width: '400px',
+            width: '600px',
           }}
         >
           {' '}
