@@ -1,4 +1,4 @@
-import { useLocation } from '@builder.io/qwik-city';
+import { useDocumentHead, useLocation } from '@builder.io/qwik-city';
 import { component$, useStyles$, useContext, useVisibleTask$ } from '@builder.io/qwik';
 import { DocSearch } from '../docsearch/doc-search';
 import { CloseIcon } from '../svgs/close-icon';
@@ -22,6 +22,12 @@ import { useSignal } from '@builder.io/qwik';
 import { useTask$ } from '@builder.io/qwik';
 
 export const Header = component$(() => {
+
+
+const headInfo = useDocumentHead()
+
+console.log(headInfo)
+
   useStyles$(styles);
   useStyles$(ogImage);
   const globalStore = useContext(GlobalStore);
@@ -38,7 +44,7 @@ export const Header = component$(() => {
 
   //turn the url into array
   const array = urlString.split('/').slice(1, -1).reverse();
-  //check if we are on home page
+  //check if we are on home page or level 0/1 route
   let isHomePage = true;
   isHomePage = array.length > 0 ? false : true;
 
