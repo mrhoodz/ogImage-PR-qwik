@@ -1,5 +1,5 @@
 ---
-title: Qwik City - Endpoints
+title: Endpoints | Qwik City
 contributors:
   - adamdbradley
   - manucorporat
@@ -288,7 +288,6 @@ export const onGet: RequestHandler = async (requestEvent) => {
 };
 ```
 
-
 ### Sending a Text body
 
 Creating a text endpoint is as simple as calling the `text(status, string)` method. The `text()` method will automatically set the `Content-Type` header to `text/plain; charset=utf-8`.
@@ -365,6 +364,6 @@ Endpoints can redirect to another URL, by throwing the `redirect(status, url)` m
 import type { RequestHandler } from '@builder.io/qwik-city';
 
 export const onGet: RequestHandler = async (requestEvent) => {
-  throw requestEvent.redirect(302,'/auth/login');
+  throw requestEvent.redirect(302, '/auth/login');
 };
 ```

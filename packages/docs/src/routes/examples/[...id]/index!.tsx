@@ -161,7 +161,7 @@ export const getExampleApp = (id: string): ExampleApp | undefined => {
 export const head: DocumentHead = ({ params }) => {
   const app = getExampleApp(params.id);
   return {
-    title: app?.title || 'Example',
+    title: `${app?.title} | examples` || 'Example',
   };
 };
 

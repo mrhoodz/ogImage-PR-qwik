@@ -1,5 +1,5 @@
 ---
-title: Qwik City - Pages
+title: Pages - Qwik City
 contributors:
   - adamdbradley
   - manucorporat
@@ -23,7 +23,6 @@ export default component$(() => {
 ```
 
 > The only difference between a page and an endpoint is that an endpoint only exports a `onRequest`, `onGet`, `onPost`, `onPut`, `onDelete`, `onPatch`, `onHead` function, which will be used to handle the incoming request.
-
 
 ## `head` export
 
@@ -94,7 +93,7 @@ export const useJoke = routeLoader$(async (requestEvent) => {
 });
 
 // Now we can export a function that returns a DocumentHead object
-export const head: DocumentHead = ({resolveValue, params}) => {
+export const head: DocumentHead = ({ resolveValue, params }) => {
   const joke = resolveValue(useJoke);
   return {
     title: `Joke "${joke.title}"`,
@@ -114,7 +113,7 @@ export const head: DocumentHead = ({resolveValue, params}) => {
 
 ### Nested layouts and head
 
-An advanced case is that a [layout](/docs/(qwikcity)/layout/index.mdx) may want to modify the document title of an already resolved document head. In the example below, the page component returns the title of `Foo`. Next, the containing layout component can read the value of the page's document head and modify it. In this example, the layout component is adding `MyCompany - ` to the title, so that when rendered, the title will be `MyCompany - Foo`. Every layout in the stack has the opportunity to return a new value.
+An advanced case is that a [layout](</docs/(qwikcity)/layout/index.mdx>) may want to modify the document title of an already resolved document head. In the example below, the page component returns the title of `Foo`. Next, the containing layout component can read the value of the page's document head and modify it. In this example, the layout component is adding `MyCompany - ` to the title, so that when rendered, the title will be `MyCompany - Foo`. Every layout in the stack has the opportunity to return a new value.
 
 ```bash
 ──src/

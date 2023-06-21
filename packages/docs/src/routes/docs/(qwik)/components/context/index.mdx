@@ -1,5 +1,5 @@
 ---
-title: Context
+title: Context | components
 contributors:
   - manucorporat
   - RATIU5
@@ -14,6 +14,7 @@ contributors:
   - AnthonyPAlicea
   - steve8708
 ---
+
 import CodeSandbox from '../../../../../components/code-sandbox/index.tsx';
 
 # Context
@@ -35,20 +36,14 @@ import {
   createContextId,
 } from '@builder.io/qwik';
 
-export const ThemeContext = createContextId<Signal<string>>(
-  'docs.theme-context'
-);
+export const ThemeContext = createContextId < Signal < string >> 'docs.theme-context';
 
 export default component$(() => {
   const theme = useSignal('dark');
   useContextProvider(ThemeContext, theme);
   return (
     <>
-      <button
-        onClick$={() =>
-          (theme.value = theme.value == 'dark' ? 'light' : 'dark')
-        }
-      >
+      <button onClick$={() => (theme.value = theme.value == 'dark' ? 'light' : 'dark')}>
         Flip
       </button>
       <Child />
@@ -57,10 +52,11 @@ export default component$(() => {
 });
 
 const Child = component$(() => {
-  const theme = useContext(ThemeContext);
-  return <div>Theme is {theme.value}</div>;
+const theme = useContext(ThemeContext);
+return <div>Theme is {theme.value}</div>;
 });
-```
+
+````
 </CodeSandbox>
 
 
@@ -76,7 +72,7 @@ export interface GenericType {
 }
 
 export const QwikCityContext = createContextId<GenericType>(name: string): ContextId<GenericType>;
-```
+````
 
 ### Parameters
 
@@ -133,8 +129,6 @@ export const Children = component$(() => {
   const plainArray = useContext(PlainArrayContext);
   const appName = useContext(AppNameContext);
 
-  return (
-    <div>Child components can use any of the provided values, such as {appName}</div>
-  );
+  return <div>Child components can use any of the provided values, such as {appName}</div>;
 });
 ```

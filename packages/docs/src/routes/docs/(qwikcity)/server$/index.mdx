@@ -1,5 +1,5 @@
 ---
-title: Qwik City - server$()
+title: server$() | Qwik City
 contributors:
   - mhevery
   - manucorporat
@@ -37,8 +37,12 @@ export default component$(() => {
 
   return (
     <section>
-      <label>First name: <input bind:value={firstName} /></label>
-      <label>Last name: <input bind:value={lastName} /></label>
+      <label>
+        First name: <input bind:value={firstName} />
+      </label>
+      <label>
+        Last name: <input bind:value={lastName} />
+      </label>
 
       <button
         onClick$={async () => {
@@ -57,7 +61,7 @@ export default component$(() => {
 
 ```tsx
 // Notice that the wrapped function is declared as a `async function`
-const addUser = server$(async function(id: number, fullName: string, address: Address) {
+const addUser = server$(async function (id: number, fullName: string, address: Address) {
   // The `this` is the `RequestEvent` object, which contains
   // the HTTP headers, cookies, and environment variables.
   const db = createClient(this.env.get('DB_KEY'));
@@ -65,20 +69,19 @@ const addUser = server$(async function(id: number, fullName: string, address: Ad
     await db.from('users').insert({
       id,
       fullName,
-      address
+      address,
     });
     return {
       success: true,
-    }
+    };
   }
   return {
     success: false,
-  }
-})
+  };
+});
 ```
 
 > Server$ can accept any number of arguments and return any value that can be serialized by Qwik, that includes primitives, objects, arrays, bigint, JSX nodes and even Promises, just to name a few.
-
 
 ## Streaming responses
 
@@ -119,7 +122,6 @@ export default component$(() => {
 ```
 
 This API is actually used to implement QwikGPT streaming responses in our docs site.
-
 
 ## How does `server$()` work?
 

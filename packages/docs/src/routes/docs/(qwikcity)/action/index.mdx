@@ -1,5 +1,5 @@
 ---
-title: Qwik City - routeAction$()
+title: routeAction$ | Qwik City
 contributors:
   - manucorporat
   - cunzaizhuyi
@@ -57,7 +57,6 @@ export default component$(() => {
 ```
 
 > Since actions are not executed during rendering, they can have side effects such as writing to a database, or sending an email. An action only runs when called explicitly.
-
 
 ## Using actions with `<Form/>`
 
@@ -143,41 +142,30 @@ export interface EditFormProps {
   editingIdSignal: Signal<string>;
 }
 
-const EditForm = component$(
-  ({ item, editingIdSignal }: EditFormProps) => {
-    const editAction = useEditFromListAction();
+const EditForm = component$(({ item, editingIdSignal }: EditFormProps) => {
+  const editAction = useEditFromListAction();
 
-    return (
+  return (
+    <div>
+      <Form
+        action={editAction}
+        onSubmitCompleted$={() => {
+          editingIdSignal.value = '';
+        }}
+        spaReset
+      >
+        <input type="text" value={item.text} name="text" id={`edit-${item.id}`} />
+        {/* Sends item.id with form data on submission. */}
+        <input type="hidden" name="id" value={item.id} />
+        <button type="submit">Submit</button>
+      </Form>
+
       <div>
-        <Form
-          action={editAction}
-          onSubmitCompleted$={() => {
-            editingIdSignal.value = '';
-          }}
-          spaReset
-        >
-          <input
-            type="text"
-            value={item.text}
-            name="text"
-            id={`edit-${item.id}`}
-          />
-          {/* Sends item.id with form data on submission. */}
-          <input type="hidden" name="id" value={item.id} />
-          <button type="submit">
-            Submit
-          </button>
-        </Form>
-
-        <div>
-          <button onClick$={() => (editingIdSignal.value = '')}>
-            Cancel
-          </button>
-        </div>
+        <button onClick$={() => (editingIdSignal.value = '')}>Cancel</button>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 export default EditForm;
 ```
@@ -224,9 +212,7 @@ export default component$(() => {
         {action.value?.failed && <p>{action.value.fieldErrors?.firstName}</p>}
         <button type="submit">Add user</button>
       </Form>
-      {action.value?.success && (
-        <p>User {action.value.userID} added successfully</p>
-      )}
+      {action.value?.success && <p>User {action.value.userID} added successfully</p>}
     </>
   );
 });
@@ -246,16 +232,13 @@ This allows actions to access the request headers, cookies, url and environment 
 import { routeAction$ } from '@builder.io/qwik-city';
 
 // The second argument of the action is the `RequestEvent` object
-export const useProductRecommendations = routeAction$(
-  async (_data, requestEvent) => {
-    console.log('Request headers:', requestEvent.request.headers);
-    console.log('Request cookies:', requestEvent.cookie);
-    console.log('Request url:', requestEvent.url);
-    console.log('Request params:', requestEvent.params);
-    console.log('MY_ENV_VAR:', requestEvent.env.get('MY_ENV_VAR'));
-  }
-);
-
+export const useProductRecommendations = routeAction$(async (_data, requestEvent) => {
+  console.log('Request headers:', requestEvent.request.headers);
+  console.log('Request cookies:', requestEvent.cookie);
+  console.log('Request url:', requestEvent.url);
+  console.log('Request params:', requestEvent.params);
+  console.log('MY_ENV_VAR:', requestEvent.env.get('MY_ENV_VAR'));
+});
 ```
 
 ## Action Failures

@@ -1,5 +1,5 @@
 ---
-title: Modular Forms
+title: Modular Forms | Integrations
 keywords: 'form, library, validation, type-safe'
 contributors:
   - fabian-hiller
@@ -91,14 +91,10 @@ Now you can proceed with the fields of your form. With the [`Field`](https://mod
 ```tsx
 <Form>
   <Field name="email">
-    {(field, props) => (
-      <input {...props} type="email" value={field.value} />
-    )}
+    {(field, props) => <input {...props} type="email" value={field.value} />}
   </Field>
   <Field name="password">
-    {(field, props) => (
-      <input {...props} type="password" value={field.value} />
-    )}
+    {(field, props) => <input {...props} type="password" value={field.value} />}
   </Field>
   <button type="submit">Login</button>
 </Form>
@@ -150,11 +146,7 @@ export default component$(() => {
     // Runs on client
   });
 
-  return (
-    <Form onSubmit$={handleSubmit}>
-      …
-    </Form>
-  );
+  return <Form onSubmit$={handleSubmit}>…</Form>;
 });
 ```
 
@@ -172,14 +164,14 @@ import type { InitialValues, SubmitHandler } from '@modular-forms/qwik';
 import { formAction$, useForm, zodForm$ } from '@modular-forms/qwik';
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Please enter your email.')
-    .email('The email address is badly formatted.'),
-  password: z
-    .string()
-    .min(1, 'Please enter your password.')
-    .min(8, 'You password must have 8 characters or more.'),
+email: z
+.string()
+.min(1, 'Please enter your email.')
+.email('The email address is badly formatted.'),
+password: z
+.string()
+.min(1, 'Please enter your password.')
+.min(8, 'You password must have 8 characters or more.'),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
@@ -200,33 +192,34 @@ export default component$(() => {
     validate: zodForm$(loginSchema),
   });
 
-  const handleSubmit: SubmitHandler<LoginForm> = $((values, event) => {
-    // Runs on client
-    console.log(values);
-  });
-
-  return (
-    <Form onSubmit$={handleSubmit}>
-      <Field name="email">
-        {(field, props) => (
-          <div>
-            <input {...props} type="email" value={field.value} />
-            {field.error && <div>{field.error}</div>}
-          </div>
-        )}
-      </Field>
-      <Field name="password">
-        {(field, props) => (
-          <div>
-            <input {...props} type="password" value={field.value} />
-            {field.error && <div>{field.error}</div>}
-          </div>
-        )}
-      </Field>
-      <button type="submit">Login</button>
-    </Form>
-  );
+const handleSubmit: SubmitHandler<LoginForm> = $((values, event) => {
+// Runs on client
+console.log(values);
 });
+
+return (
+<Form onSubmit$={handleSubmit}>
+<Field name="email">
+{(field, props) => (
+<div>
+<input {...props} type="email" value={field.value} />
+{field.error && <div>{field.error}</div>}
+</div>
+)}
+</Field>
+<Field name="password">
+{(field, props) => (
+<div>
+<input {...props} type="password" value={field.value} />
+{field.error && <div>{field.error}</div>}
+</div>
+)}
+</Field>
+<button type="submit">Login</button>
+</Form>
+);
+});
+
 ```
 </CodeSandbox>
 
@@ -235,3 +228,4 @@ export default component$(() => {
 You have learned the basics of Modular Forms and are ready to create your first simple form. For more info and details you can find more guides and the API reference on our website: [modularforms.dev](https://modularforms.dev/)
 
 > Do you like Modular Forms so far? It would be a great honor for us to get a star from you on [GitHub](https://github.com/fabian-hiller/modular-forms)!
+```

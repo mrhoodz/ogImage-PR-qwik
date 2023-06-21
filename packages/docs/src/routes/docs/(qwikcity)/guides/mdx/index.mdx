@@ -1,5 +1,5 @@
 ---
-title: Qwik City - MDX
+title: MDX | Qwik City
 contributors:
   - manucorporat
   - adamdbradley
@@ -150,6 +150,7 @@ The above example will generate the following HTML code.
 ```
 
 ## Reading frontmatter data
+
 Frontmatter keys are accessible by leveraging the `useDocumentHead()` hook.
 
 ```Markdown title="src/routes/some/path/index.mdx"
@@ -173,11 +174,11 @@ import { useDocumentHead } from '@builder.io/qwik-city';
 
 export const Tags = component$(() => {
   const { frontmatter } = useDocumentHead();
-  
+
   if (frontmatter.tags.length) {
     return;
   }
-  
+
   return (
     <ul>
       {frontmatter.tags.map((tag: string) => (

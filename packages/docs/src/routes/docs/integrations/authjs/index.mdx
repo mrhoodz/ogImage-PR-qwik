@@ -1,5 +1,5 @@
 ---
-title: Qwik City and Auth.js
+title: Auth.js | Integrations
 keywords: 'authentication, auth, oauth'
 contributors:
   - the-r3aper7
@@ -39,8 +39,8 @@ export default defineConfig(() => {
       },
     },
     optimizeDeps: {
-      include: [ "@auth/core" ]
-    }
+      include: ['@auth/core'],
+    },
   };
 });
 ```
@@ -59,7 +59,6 @@ export default component$(() => {
   const session = useAuthSession();
   return <p>{session.value?.user?.email}</p>;
 });
-
 ```
 
 ### useAuthSignin
@@ -68,10 +67,10 @@ A [routeAction$](/docs/action/) used to initiate a signin flow or send the user 
 
 #### Parameters
 
-* `providerId`: An optional string parameter with the name of the provider. When supplied will initiate the Authorization Request to your Identity Provider. When omited will redirect to the built-in/unbranded sign-in page.
-* `options`: An optional object of options.
-  * `callbackUrl`: An optional string specifying to which URL the user will be redirected after signing in. Defaults to the page URL the sign-in is initiated from.
-* `authorizationParams`: An optional object of additional parameters sent to the /authorize endpoint. See the Authorization Request OIDC spec for some ideas.
+- `providerId`: An optional string parameter with the name of the provider. When supplied will initiate the Authorization Request to your Identity Provider. When omited will redirect to the built-in/unbranded sign-in page.
+- `options`: An optional object of options.
+  - `callbackUrl`: An optional string specifying to which URL the user will be redirected after signing in. Defaults to the page URL the sign-in is initiated from.
+- `authorizationParams`: An optional object of additional parameters sent to the /authorize endpoint. See the Authorization Request OIDC spec for some ideas.
 
 > **NOTE:** You can also set the `authorizationParams` through the provider.authorizationParams configuration
 
@@ -87,7 +86,11 @@ export default component$(() => {
   return (
     <Form action={signIn}>
       <input type="hidden" name="providerId" value="github" />
-      <input type="hidden" name="options.callbackUrl" value="http://qwik-auth-example.com/dashboard" />
+      <input
+        type="hidden"
+        name="options.callbackUrl"
+        value="http://qwik-auth-example.com/dashboard"
+      />
       <button>Sign In</button>
     </Form>
   );
@@ -103,7 +106,16 @@ import { useAuthSignin } from '~/routes/plugin@auth';
 export default component$(() => {
   const signIn = useAuthSignin();
   return (
-    <button onClick$={() => signIn.submit({ providerId: 'github', options: { callbackUrl: 'http://qwik-auth-example.com/dashboard' } })}>Sign In</button>
+    <button
+      onClick$={() =>
+        signIn.submit({
+          providerId: 'github',
+          options: { callbackUrl: 'http://qwik-auth-example.com/dashboard' },
+        })
+      }
+    >
+      Sign In
+    </button>
   );
 });
 ```
@@ -114,7 +126,7 @@ A [routeAction$](/docs/action/) used to initiate a signout flow. The user sessio
 
 #### Parameters
 
-* `callbackUrl`: An optional string specifying to which URL the user will be redirected after signing out. Defaults to the page URL the sign-in is initiated from.
+- `callbackUrl`: An optional string specifying to which URL the user will be redirected after signing out. Defaults to the page URL the sign-in is initiated from.
 
 The 'callbackUrl' must be considered valid by the redirect callback handler. By default, it requires the URL to be an absolute URL at the same host name, or you can also supply a relative URL starting with a slash. If it does not match it will redirect to the homepage. You can define your own redirect callback to allow other URLs.
 
@@ -160,7 +172,7 @@ Displays the built-in/unbranded sign-in page.
 
 **POST /api/auth/signin/:provider**
 
-Starts a provider-specific sign-in flow. In the case of an OAuth provider, calling this endpoint will initiate the Authorization Request to your Identity Provider.  This endpoint is also used by the [useAuthSignin](#useauthsignin) action internally.
+Starts a provider-specific sign-in flow. In the case of an OAuth provider, calling this endpoint will initiate the Authorization Request to your Identity Provider. This endpoint is also used by the [useAuthSignin](#useauthsignin) action internally.
 
 ### callback
 
@@ -200,6 +212,7 @@ Returns a list of configured OAuth services and details (e.g. sign in and callba
 
 1. Follow the [GitHub OAuth Guide](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app) to get your `GitHub Client ID`, `GitHub Client Secrets` and generate `AUTH_SECRET` using `openssl rand -base64 32` or [Secret Generator](https://generate-secret.vercel.app/32).
 2. Since the default `plugin@auth.ts` uses GitHub as an example, we don't need to change anything there. However a provider other than GitHub could be used or additional provides could be added. Auth.js also supports many [additional options](https://next-auth.js.org/configuration/options#options) that can be set in this file.
+
 ```ts title="src/routes/plugin@auth.ts"
 import { serverAuth$ } from '@builder.io/qwik-auth';
 import GitHub from '@auth/core/providers/github';
@@ -207,17 +220,18 @@ import type { Provider } from '@auth/core/providers';
 
 export const { onRequest, useAuthSession, useAuthSignin, useAuthSignout } = serverAuth$(
   ({ env }) => ({
-    secret: env.get("AUTH_SECRET"),
+    secret: env.get('AUTH_SECRET'),
     trustHost: true,
     providers: [
       GitHub({
-        clientId: env.get("GITHUB_ID"),
-        clientSecret: env.get("GITHUB_SECRET"),
+        clientId: env.get('GITHUB_ID'),
+        clientSecret: env.get('GITHUB_SECRET'),
       }),
     ] as Provider[],
   })
 );
 ```
+
 3. Create or edit the `.env.local` file at the root of your project to store secrets
 
 ```bash title=".env.local"
@@ -226,14 +240,14 @@ GITHUB_SECRET=
 AUTH_SECRET=
 ```
 
-> *IMPORTANT*: Please read the Qwik documentation about [Environment Variables](/docs/env-variables/) to ensure you are using them safely. Many provider secrets should be kept secure and not exposed to the client/browser.
+> _IMPORTANT_: Please read the Qwik documentation about [Environment Variables](/docs/env-variables/) to ensure you are using them safely. Many provider secrets should be kept secure and not exposed to the client/browser.
 
 4. The application is now ready to impliment authentication using Auth.js.
 5. Enjoy!
 
 ### Route Protection
 
-Session data can be accessed via the route `event.sharedMap`.  So a route can be protected and redirect using something like this located in a `layout.tsx` or page `index.tsx`:
+Session data can be accessed via the route `event.sharedMap`. So a route can be protected and redirect using something like this located in a `layout.tsx` or page `index.tsx`:
 
 ```tsx
 export const onRequest: RequestHandler = (event) => {

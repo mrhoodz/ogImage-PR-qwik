@@ -1,5 +1,5 @@
 ---
-title: Qwik City - Environment variables
+title: Environment variables | Qwik City
 contributors:
   - manucorporat
   - the-r3aper7
@@ -30,8 +30,8 @@ import { component$ } from '@builder.io/qwik';
 
 export default component$(() => {
   // `import.meta.env.PUBLIC_*` variables can be read anywhere, including browser
-  return <div>PUBLIC_API_URL: {import.meta.env.PUBLIC_API_URL}</div>
-})
+  return <div>PUBLIC_API_URL: {import.meta.env.PUBLIC_API_URL}</div>;
+});
 ```
 
 > `import.meta.env.PUBLIC_*` variables can be read anywhere, but do not put any sensitive information in them, since they will be visible to the client.
@@ -45,12 +45,7 @@ They are not known at build-time and are not available in the browser, so they c
 Server-side variables can only be accessed in server-only APIs that expose the `RequestEvent` object, such as `routeLoader$()`, `routeAction$()`, `server$()` and endpoint handlers such as `onGet`, `onPost`, `onRequest` etc.
 
 ```tsx /DB_PRIVATE_KEY/ title="src/routes/index.tsx"
-import {
-  routeLoader$,
-  routeAction$,
-  server$,
-  type RequestEvent,
-} from '@builder.io/qwik-city';
+import { routeLoader$, routeAction$, server$, type RequestEvent } from '@builder.io/qwik-city';
 
 export const onGet = (requestEvent: RequestEvent) => {
   console.log(requestEvent.env.get('DB_PRIVATE_KEY'));

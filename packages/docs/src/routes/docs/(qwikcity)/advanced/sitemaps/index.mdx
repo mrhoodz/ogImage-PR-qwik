@@ -1,5 +1,5 @@
 ---
-title: Generating Sitemaps
+title: Generating Sitemaps | advanced
 contributors:
   - adamdbradley
 ---
@@ -10,21 +10,21 @@ By default, when Static Site Generated (SSG) pages are built, a [sitemap](https:
 
 ## Configuration
 
-The sitemap can be configured using the adapter's vite config file. The example below is configuring the Cloudflare adapter. The default sitemap file path is `sitemap.xml`, but you can use the `sitemapOutFile` option to change the file path. 
+The sitemap can be configured using the adapter's vite config file. The example below is configuring the Cloudflare adapter. The default sitemap file path is `sitemap.xml`, but you can use the `sitemapOutFile` option to change the file path.
 
 ```ts
-  plugins: [
-    cloudflarePagesAdapter({
-      ssg: {
-        include: ['/*'],
-        origin: 'https://qwik.builder.io',
-        sitemapOutFile: 'sitemap.xml',
-      },
-    }),
-  ]
+plugins: [
+  cloudflarePagesAdapter({
+    ssg: {
+      include: ['/*'],
+      origin: 'https://qwik.builder.io',
+      sitemapOutFile: 'sitemap.xml',
+    },
+  }),
+];
 ```
 
-The `include` option is used to specify which pages should are built, which also adds them to the sitemap. Any pages added to the `exclude` option will also exclude them from the sitemap. 
+The `include` option is used to specify which pages should are built, which also adds them to the sitemap. Any pages added to the `exclude` option will also exclude them from the sitemap.
 
 The `origin` option is used to specify the origin of the site and is used to generate the absolute URLs for the sitemap.
 

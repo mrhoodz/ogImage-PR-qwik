@@ -1,5 +1,5 @@
 ---
-title: Best Practices
+title: Best Practices | guides
 contributors:
   - mhevery
   - the-r3aper7
@@ -29,7 +29,9 @@ export default component$(() => {
     <div>
       <button onClick$={() => signal.value++}>+</button>
       <button onClick$={() => signal.value--}>-</button>
-      <div>{isBiggerThanZero} - Current value: { signal.value }</div>
+      <div>
+        {isBiggerThanZero} - Current value: {signal.value}
+      </div>
     </div>
   );
 });
@@ -43,11 +45,11 @@ export default component$(() => {
   return (
     <div>
       <button onClick$={() => signal.value++}>+</button>
-        <button onClick$={() => signal.value--}>-</button>
-        <div>
-          {signal.value > 0 ? 'Bigger than zero' : 'Smaller than zero'} - Current
-          value: {signal.value}
-        </div>
+      <button onClick$={() => signal.value--}>-</button>
+      <div>
+        {signal.value > 0 ? 'Bigger than zero' : 'Smaller than zero'} - Current value:{' '}
+        {signal.value}
+      </div>
     </div>
   );
 });
@@ -90,10 +92,10 @@ useOnDocument(
 ```
 
 When in doubt, instead of `useVisibleTask$()` use:
+
 - `useOn()`: listen to events on the root element of `the current component`.
 - `useOnWindow()`: listen to events on the `window` object.
 - `useOnDocument()`: listen to events on the `document` object.
-
 
 ## Avoid accessing the location from the `window` object
 
@@ -144,5 +146,4 @@ However, exercise caution! If the required information (such as query parameters
 
 This approach helps to prevent eager loading of JavaScript and improves performance.
 
-> See: [useLocation() Docs](/docs/(qwikcity)/api/index.mdx#uselocation)
-
+> See: [useLocation() Docs](</docs/(qwikcity)/api/index.mdx#uselocation>)

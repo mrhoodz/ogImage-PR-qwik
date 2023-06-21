@@ -1,5 +1,5 @@
 ---
-title: Styles
+title: Styles | components
 contributors:
   - manucorporat
   - zanettin
@@ -46,24 +46,37 @@ export default component$(() => {
 Remember that Qwik uses `class` instead of `className` for CSS classes.
 
 To assign multiple classes qwik accepts also Arrays, Objects or a mix of them:
+
 ```tsx title="src/components/MyComponent/MyComponent.tsx"
 import { component$ } from '@builder.io/qwik';
 import styles from './MyComponent.module.css';
 
 export default component$((props) => {
   // Array syntax example
-  return <div class={[
-    styles.container, 
-    'p-8', 
-    props.isHighAttention ? 'text-green-500' : 'text-slate-500',
-    { active: true}
-  ]}>Hello world</div>;
+  return (
+    <div
+      class={[
+        styles.container,
+        'p-8',
+        props.isHighAttention ? 'text-green-500' : 'text-slate-500',
+        { active: true },
+      ]}
+    >
+      Hello world
+    </div>
+  );
 
   // Object syntax example
-  return <div class={{  
-    'text-green-500': props.isHighAttention,
-    'p-4': true
-  }}>Hello world</div>;
+  return (
+    <div
+      class={{
+        'text-green-500': props.isHighAttention,
+        'p-4': true,
+      }}
+    >
+      Hello world
+    </div>
+  );
 });
 ```
 
@@ -175,7 +188,6 @@ export default component$(() => {
 });
 ```
 
-
 ### `:global()` selector
 
 Using `useStylesScoped$` will scope all child selectors in a ruleset to the component. If you need to style child components rendered through a `<Slot />`, you will need to break out of the scoped styles using the `:global()` selector.
@@ -206,7 +218,6 @@ This will render a css selector of `.list.⭐️8vzca0-0 > *:nth-child(3)`, allo
 
 > Beware that this may have unintended effects that cascade down your component tree.
 
-
 ## `useStyles$()`
 
 A lazy-loadable reference to component's styles.
@@ -231,7 +242,6 @@ export const CmpStyles = component$(() => {
 ```
 
 > Notice that in order to import CSS as a string in Vite, you need to add the `?inline` query parameter to the import, like this: `import styles from './code-block.css?inline';`
-
 
 ## CSS Preprocessors
 
@@ -323,7 +333,7 @@ The problem with this approach is that we will load styles twice.
 1. The styles are inserted into the HTML as part of the SSR.
 2. Then when the component is invalidated and needs to be re-rendered, the styles are loaded again because they are inlined.
 
-What is needed is to load the styles independently from the component. This is what [`useStyles$()`](/docs/(qwik)/components/styles/index.mdx#usestyles) is for. There are two scenarios:
+What is needed is to load the styles independently from the component. This is what [`useStyles$()`](</docs/(qwik)/components/styles/index.mdx#usestyles>) is for. There are two scenarios:
 
 1. The component is rendered on the server and the styles are inserted into `<head>` as part of the SSR.
    - Adding a new instance of a component to the application does not require that we load the styles as they are already included as part of SSR.

@@ -24,9 +24,27 @@ import { useTask$ } from '@builder.io/qwik';
 export const Header = component$(() => {
 
 
-const headInfo = useDocumentHead()
+  // the title of the current page
+const pageTitle = useDocumentHead().title
 
-console.log(headInfo)
+  //turn the title into array
+  const arrayedTitle = pageTitle.split(" | ");
+
+  //check if we are on home page or level 0 or 1 route
+  let isBaseRoute = true;
+  isBaseRoute = arrayedTitle.length > 0 ? false : true;
+
+// set the text for the ogimage
+  const biggerTitle = isBaseRoute ? undefined : arrayedTitle[0]; //.replace('#', '');
+  const smallerTitle = isBaseRoute ? undefined : arrayedTitle[1];
+
+// check the outputs on the server
+console.log(arrayedTitle);
+console.log('Array length ' + arrayedTitle.length);
+console.log('Bigger text is ' + biggerTitle + ' and smaller text ' + smallerTitle);
+
+
+
 
   useStyles$(styles);
   useStyles$(ogImage);
@@ -48,19 +66,14 @@ console.log(headInfo)
   let isHomePage = true;
   isHomePage = array.length > 0 ? false : true;
 
-  const biggerText = isHomePage ? undefined : array[0]; //.replace('#', '');
-  // const newBiggerText = biggerText.replace(/-/g, ' ');
-  const smallerText = isHomePage ? undefined : array[1];
-  console.log('Array length ' + array.length);
-  console.log('Bigger text is ' + biggerText + ' | smaller text ' + smallerText);
   useTask$(() => {
     //change the value of the title and subtitle
-    ogImgTitle.value = biggerText;
-    ogImgSubTitle.value = smallerText;
+    ogImgTitle.value = biggerTitle!;
+    ogImgSubTitle.value = smallerTitle!;
 
     //decide whether or not to show subtitle
     if (ogImgSubTitle.value == undefined || ogImgTitle == undefined) {
-      ogImgTitle.value = biggerText;
+      ogImgTitle.value = biggerTitle!;
 
       routeLevel.value = 0;
       imageUrl.value = `/logos/social-card.jpg`;
@@ -72,6 +85,7 @@ console.log(headInfo)
 
   useVisibleTask$(() => {
     // console.log(useLocation().url.hash); // dont forget to remove this bruh
+    console.log(pageTitle)
 
     globalStore.theme = getColorPreference();
     return colorSchemeChangeListener((isDark) => {
