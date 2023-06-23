@@ -26,6 +26,13 @@ export const Header = component$(() => {
 
   // the title of the current page
 const pageTitle = useDocumentHead().title
+const {url} = useLocation()
+
+// arrayed url 
+
+// parent route
+const arrayedUrl = url.href.split("/")
+const parentRoute = arrayedUrl.slice(3)[0]
 
   //turn the title into array
   const arrayedTitle = pageTitle.split(" | ");
@@ -42,7 +49,9 @@ const pageTitle = useDocumentHead().title
 console.log(arrayedTitle);
 console.log('Array length ' + arrayedTitle.length);
 console.log('Bigger text is ' + biggerTitle + ' and smaller text ' + smallerTitle);
-
+console.log(arrayedUrl)
+console.log(parentRoute)
+console.log("third level route is "+ arrayedUrl[2])
 
 
 
@@ -75,12 +84,24 @@ console.log('Bigger text is ' + biggerTitle + ' and smaller text ' + smallerTitl
     if (ogImgSubTitle.value == undefined || ogImgTitle == undefined) {
       ogImgTitle.value = biggerTitle!;
 
-      routeLevel.value = 0;
+      routeLevel.value =     0;
       imageUrl.value = `/logos/social-card.jpg`;
-    } else {
+    } 
+    else {
       routeLevel.value = 1;
-      imageUrl.value = `https://next-satori.vercel.app/api/og/?level=${routeLevel.value}&title=${ogImgTitle.value}&subtitle=${ogImgSubTitle.value}`;
+// check if on example a.k.a qwik-sandbox because the navigation in qwik-sandbox does not update useDocumenthead()
+if( parentRoute == "examples" ){
+      imageUrl.value = `https://next-satori.vercel.app/api/og/?level=${routeLevel.value}&title=${"Examples"}&subtitle=${"Qwik Sandbox"}`;
+
+} else{     
+  imageUrl.value = `https://next-satori.vercel.app/api/og/?level=${routeLevel.value}&title=${ogImgTitle.value}&subtitle=${ogImgSubTitle.value}`;
+}
+
+
     }
+
+
+    // console.log(ogImgTitle.value + "aaaa "+ ogImgSubTitle.value + " bbb")
   });
 
   useVisibleTask$(() => {
